@@ -301,6 +301,7 @@ display: none;
 #baner-icon {
 	/*display: none;*/
 	min-width:50%;
+	max-width:80%;
 	position: absolute;
     left: 10px;
     top: 10px;

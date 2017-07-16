@@ -541,8 +541,6 @@ function drawPlayersNew(userCurrent) {
     //     userCurrent = player;
     // }
     var currentSprite = getFishSpriteData(userCurrent.levelUp.level);
-    
-    
 
     graph.lineWidth = 1;
     graph.strokeStyle = global.lineColor;
@@ -552,24 +550,23 @@ function drawPlayersNew(userCurrent) {
     if(userCurrent.jellyCollision.status){
        graph.drawImage(imageShock, global.screenWidth / 2 - global.imageShock.x/2 + userCurrent.x - player.x , global.screenHeight / 2 - global.imageShock.y + userCurrent.y - player.y);
     }
-    // var positionUser = {};
     if(userCurrent.type != "bot"){
+        // var positionUser = {};
         if(userCurrent.id != undefined && userCurrent.dataPosition != undefined){
             // console.log("AAA", userCurrent.dataPosition);
 
             // positionUser = {
-            userCurrent.x = userCurrent.dataPosition[0].x + (userCurrent.dataPosition[1].x - userCurrent.dataPosition[0].x)*( global.timeDraw /global.timeStep);
-            userCurrent.y = userCurrent.dataPosition[0].y + (userCurrent.dataPosition[1].y - userCurrent.dataPosition[0].y)*( global.timeDraw /global.timeStep);
+                userCurrent.x = userCurrent.dataPosition[0].x + (userCurrent.dataPosition[1].x - userCurrent.dataPosition[0].x)*( global.timeDraw /global.timeStep);
+                userCurrent.y = userCurrent.dataPosition[0].y + (userCurrent.dataPosition[1].y - userCurrent.dataPosition[0].y)*( global.timeDraw /global.timeStep);
             // };
             // if(global.timeDraw > global.timeStep){
             //     userCurrent.dataPosition[1].x = positionUser.x;   
             //     userCurrent.dataPosition[1].y = positionUser.y;
             // }
-            if(isNaN(positionUser.x)){
-                console.log("BBB: ", userCurrent.dataPosition, global.timeDraw, global.timeStep);
-            }
+            // if(isNaN(positionUser.x)){
+            //     console.log("BBB: ", userCurrent.dataPosition, global.timeDraw, global.timeStep);
+            // }
             // console.log("AAA", userCurrent.dataPosition);
-            
         }else {
             userCurrent.x = player.x;
             userCurrent.y = player.y;
@@ -954,7 +951,7 @@ Game.prototype.handleGraphics = function() {
             // // console.log("Time3: ", d6 - d5);
             // d5 = d6;
             // console.log(lastPlayer.x, lastPlayer.y);
-            console.log("pos: ", player.x, player.y);
+            // console.log("pos: ", player.x, player.y);
             // // console.log("player: ", player.x, player.y);
             var targetHandle = {x: window.canvas.target.x, y: window.canvas.target.y, latencyIndex : latencyIndex};
             // var distance = getDistance(lastPlayer, player);

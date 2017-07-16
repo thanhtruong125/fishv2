@@ -1296,7 +1296,7 @@ function moveloop() {
     }
     for (var i = 0; i < bots.length; i++) {
         if(bots[i].living && bots[i].living.status)
-            tickPlayer(bots[i]);
+            tickPlayer(bots[i], time);
         if(bots[i].living && bots[i].living.status == false){
             bots[i] = {};
             bots.splice(i, 1);
@@ -1652,7 +1652,7 @@ function sendUpdates() {
                             living: f.living,
                             isHut: f.isHut,
                             speed: f.speed,
-                            type: "bot"
+                            type: 'bot'
                         };
                 }
             })
