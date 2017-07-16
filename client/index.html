@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fish.io</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <audio id="audio_bubble" src="audio/bongBong.wav" type="audio/wav" controls loop></audio>
+    <audio id="audio_gameover" src="audio/gameOver.wav" type="audio/wav" controls></audio>
+    <audio id="audio_main" src="audio/mainscreen.wav" type="audio/wav" controls loop></audio>
+    <audio id="audio_shark" src="audio/shark.mp3" type="audio/mpeg" controls></audio>
+    <audio id="audio_boom" src="audio/BoomNo.mp3" type="audio/mpeg" controls></audio>
+    <audio id="audio_grow" src="audio/fishGrow.wav" type="audio/wav" controls></audio>
+    
+</head>
+<body oncontextmenu="return false;">
+    <div id="gameAreaWrapper" style="display:none;">
+        <canvas tabindex="2" id="shadowCanvas" style="position: absolute; left: 0px; top: 0px"></canvas>
+        <canvas tabindex="1" id="cvs"></canvas>
+        <canvas id="radar"></canvas>
+        
+        <div id="status"><span class="title">Leaderboard</span></div>
+        <div class="chatbox" id="chatbox">
+            <ul id="chatList" class="chat-list"></ul>
+            <input id="chatInput" type="text" class="chat-input" placeholder="Chat here..." maxlength="35" />
+        </div>
+        <div id="info">
+            <div><span>Your Kill: </span> <span id="yourKill"></span></div>
+            <div><span>Your rank: </span><span id="yourRank"></span ></div>
+            <span id="out"></span>
+        </div>
+    </div>
+
+    <div id="header">
+        <div id="baner-icon" style="display: none;">
+            
+            <div style="margin: 0 auto;">
+                <img src="img/ico/cap1.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            
+                <img src="img/ico/cap2.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            
+                <img src="img/ico/cap3.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            
+                <img src="img/ico/cap4.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            
+                <img src="img/ico/cap5.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            
+                <img src="img/ico/cap6.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            
+                <img src="img/ico/cap7.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            
+                <img src="img/ico/cap8.png" class="img-responsive img-circle img-color" alt="Cinque Terre">
+            </div>
+        </div>
+        <div class="row" id="skill-icon" style="display: none;">
+            <div class="skill">
+                
+                <img src="img/ico/speed.png" id="speed" class="img-responsive img-circle img-color-2" alt="Cinque Terre">
+
+                <img src="img/ico/absorb.png" id="absorb" class="img-responsive img-circle img-color-2" alt="Cinque Terre">
+
+            <div style="position: relative;">
+                <img src="img/ico/yBoom.png" id="boom" class="img-responsive img-circle img-color-2" alt="Cinque Terre">
+                <span id="numberBoom">0</span>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <img src="img/cap1.png" id="state1"  style="display:none;">
+        <img src="img/cap2.png" id="state2"  style="display:none;">
+        <img src="img/cap3.png" id="state3"  style="display:none;">
+        <img src="img/cap4.png" id="state4"  style="display:none;">
+        <img src="img/cap5.png" id="state5"  style="display:none;">
+        <img src="img/cap6.png" id="state6"  style="display:none;">
+        <img src="img/cap7.png" id="state7"  style="display:none;">
+        <img src="img/cap8.png" id="state8"  style="display:none;">
+        <img src="img/blasting.png" id="blasting"  style="display:none;">
+        <img src="img/food1.png" id="food"  style="display:none;">
+        <img src="img/food2.png" id="food2"  style="display:none;">
+        <img src="img/food3.png" id="food3"  style="display:none;">
+        <img src="img/food4.png" id="food4"  style="display:none;">
+        <img src="img/bgMain.svg" id="bgImg"  style="display:none;">
+        <img src="img/bubble.png" id="bubble"  style="display:none;">
+        <img src="img/airBubble.png" id="airBubble"  style="display:none;">
+        <img src="img/airBubble2.png" id="airBubble2"  style="display:none;">
+        <img src="img/airBubble3.png" id="airBubble3"  style="display:none;">
+        <img src="img/airBubble4.png" id="airBubble4"  style="display:none;">
+        <img src="img/itemBoom.png" id="itemBoom"  style="display:none;">
+        <img src="img/jellyFish.png" id="jellyFish"  style="display:none;">
+        <img src="img/shark.png" id="shark"  style="display:none;">
+        <img src="img/eating.png" id="eating"  style="display:none;">
+        <img src="img/shock.png" id="shock"  style="display:none;">
+        <img src="img/light.png" id="light"  style="display:none;">
+    
+    </div>
+    
+    <div id="startMenuWrapper">
+        <div id="startMenu" style="display: none;">
+            <!-- <p>Fish IO</p> -->
+            <div id="background" style="text-align: center; margin: 10px;">
+                <img src="img/background01.png" >
+            </div>
+            <div id="score" style="display: none;"><span>YOUR KILL IS : </span><span id="highScore"></span></div>
+            <div id="rules" class="group" style="display: block;">Feed your fish to grow your school</div>
+            <div id="inputText" style="width: 350px; text-align: center; margin:0 auto; display: none;" >
+                <input type="text" tabindex="0" autofocus placeholder="Enter your name here" id="playerNameInput" />
+            <b class="input-error">Nick name must be alphanumeric characters only!</b>
+            <br />
+            <button id="startButton">Play</button>
+            </div>
+            <div id="progressBar" class="progress progress-striped active" style="display: none; width: 40%; height: 40px; text-align: center; margin:0 auto; margin-top: 30px;" >
+              <div id="progressValue" class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; height: 40px; ">
+                <span class="sr-only">45% Complete</span>
+              </div>
+            </div>
+            <div id="shareApp" style="display: none;">
+            <a target="_blank" href="https://twitter.com/intent/tweet?status=Come%20and%20play%20https://fish-io.herokuapp.com%20%23fish-io">
+                <img  src="./img/twitter.png">
+            </a>
+            <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffish-io.herokuapp.com%2F&amp;src=sdkpreparse">
+                <img src="img/facebook.png" />
+            </a>
+            
+            <a href="https://plus.google.com/share?url=https://fish-io.herokuapp.com/" target="_blank"><img  src="./img/google.png" alt="Share on Google+"/></a>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/global.js"></script>
+    <script src="./js/chat.js"></script>
+    <script src="./js/canvas.js"></script>
+    <script src="./js/game.js"></script>
+    <script src="./js/app.js"></script>
+    
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+{
+    "port": 3334,
+    "foodMass": 1,
+    "food" :{
+        "maxFood": 50,
+        "level": [
+            {"foodMass": 1,"radius": 25,"column": 6,"row": 1, "speed": 3, "width": 73, "height": 46},
+            {"foodMass": 2,"radius": 40,"column": 1,"row": 1, "speed": 3.5, "width": 80, "height": 70},
+            {"foodMass": 3,"radius": 40,"column": 1,"row": 1, "speed": 4, "width": 60, "height": 48},
+            {"foodMass": 4,"radius": 40,"column": 1,"row": 1, "speed": 5.5, "width": 60, "height": 47}
+        ]
+    },
+    "fireFood": 20,
+    "limitSplit": 16,
+    "defaultPlayerMass": 10,
+
+    "itemBoom": {
+        "radius": 30,
+        "maxItem": 20,
+        "status": {
+            "LIVE": 0,
+            "DIED": 1
+        }
+    },
+    "light": {
+        "maxLight": 20,
+        "typeMax": 1,
+        "defaultRadiusLight": 200,
+        "radius": 40
+    },
+    "boom": {
+        "radius": 40,"column": 10,"row": 1, "speed": 6
+    },
+    "jellyFish": {
+        "maxJellyFish": 20,
+        "time": 2000,
+        "height": 138, 
+        "width": 94,
+        "typeMax": 2,
+        "radius": 25,
+        "column": 3,
+        "row": 1
+    },
+    "gameWidth": 10000,
+    "gameHeight": 10000,
+    "gameMass": 10000,
+    "slowBase": 8,
+    "logChat": 0,
+    "maxMass": 10,
+    "networkUpdateFactor":20,
+    "maxHeartbeatInterval": 5000,
+    "foodUniformDisposition": true,
+    "virusUniformDisposition": false,
+    "newPlayerInitialPosition": "farthest",
+    "fishType":[
+        {"maxMass": 20, "radius": 40, "width": 128, "height": 95 , "column": 1, "row": 1}, 
+        {"maxMass": 40, "radius": 60, "width": 128, "height": 124, "column": 1, "row": 1},
+        {"maxMass": 60, "radius": 100,"width": 92,  "height": 116, "column": 1, "row": 1}, 
+        {"maxMass": 100, "radius": 100,"width": 142, "height": 119, "column": 1, "row": 1},
+        {"maxMass": 150, "radius": 80, "width": 166, "height": 135, "column": 1, "row": 1},
+        {"maxMass": 190, "radius": 80, "width": 154, "height": 127, "column": 1, "row": 1},
+        {"maxMass": 230, "radius": 80, "width": 168, "height": 127, "column": 1, "row": 1},
+        {"maxMass": 300, "radius": 80, "width": 154, "height": 127, "column": 1, "row": 1}
+    ],
+    "sharkFish":{
+        "maxSharkFish": 0,
+        "level" :[{"radius": 40, "width": 272, "height": 107 , "column": 3, "row": 1, "speed": 3.5}]
+    },
+    "direct": {
+        "LEFT": 1,
+        "RIGHT": 2
+    },
+    "radiusAbsorb": 300,
+    "speedAnimation": 8,
+    "timeWait": 5000,
+    "timeLevelUp": 2000,
+    "speedPlayer": 6.5,
+    "typeObj": {
+        "FOOD" : 0,
+        "MASS" : 1,
+        "ITEMBOOM": 2,
+        "BOOM": 3,
+        "JELLY": 4,
+        "ENEMY": 5,
+        "AIBOT": 6,
+        "LIGHT":7
+    },
+    "numberBot": 0,
+    "BOT":{
+        "DANGER": 0,
+        "WARN": 1,
+        "SAVE": 2,
+        "ATTACK": 3
+    },
+    "defaultTime": 5000,
+    "timeServer": 17
+}
