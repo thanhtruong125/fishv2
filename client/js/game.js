@@ -576,6 +576,7 @@ function drawPlayersNew(userCurrent) {
         
     }else {
         positionUser = {x: player.x, y: player.y};
+        userCurrent.direction = window.canvas.target.x > 0? global.direct.RIGHT: global.direct.LEFT;
     }
     if(userCurrent.direction == global.direct.RIGHT){
         drawSprite(currentSprite.state, currentSprite.colBegin, currentSprite.colCount, currentSprite.rawRightBegin, currentSprite.width, currentSprite.height, userCurrent.frameAnimation, positionUser, player);
