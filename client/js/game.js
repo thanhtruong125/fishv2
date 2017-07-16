@@ -573,6 +573,7 @@ function drawPlayersNew(userCurrent) {
         }else {
             userCurrent.x = player.x;
             userCurrent.y = player.y;
+            userCurrent.direction = window.canvas.target.x > 0? global.direct.RIGHT: global.direct.LEFT;
         }
     }
     var circle = {
