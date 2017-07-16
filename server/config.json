@@ -47,7 +47,7 @@
     "slowBase": 8,
     "logChat": 0,
     "maxMass": 10,
-    "networkUpdateFactor":20,
+    "networkUpdateFactor":5,
     "maxHeartbeatInterval": 5000,
     "foodUniformDisposition": true,
     "virusUniformDisposition": false,
