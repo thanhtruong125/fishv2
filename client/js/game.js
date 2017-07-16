@@ -211,24 +211,7 @@ window.chat = new ChatClient();
         window.chat.addChatLine(data.sender, data.message, false);
     });
     // Handle movement.
-    socket.on('serverTellItemMove', function(foodsList, itemBoomList, massList, lightList, jellyFishList, boomList, visibleEnemy, botVisible){
-        foods = foodsList;
-        itemBoom = itemBoomList;
-        fireFood = massList;    
-        jellyFish = jellyFishList;
-        booms = boomList;
-        enemies = visibleEnemy;
-        bots = botVisible;
-        lights = lightList;
-        if(enemies.length > 0  && !global.hasEnemy){
-            audioShark.play();
-            global.hasEnemy = true;
-        }
-        if(enemies.length == 0){
-            global.hasEnemy = false;
-        }
-    });
-    socket.on('serverTellPlayerMove', function (userData, radarUsr, nbUser) {
+    socket.on('serverTellPlayerMove', function (userData, foodsList, itemBoomList, massList, lightList, jellyFishList, boomList, visibleEnemy, botVisible, radarUsr, nbUser) {
         var currentTime = new Date().getTime();
         global.timeDraw = 0;
         global.timeStep = currentTime - lastLatencyTime;
@@ -296,7 +279,22 @@ window.chat = new ChatClient();
         }
 
         users = userData;
+        foods = foodsList;
         radarUser = radarUsr;
+        itemBoom = itemBoomList;
+        fireFood = massList;    
+        jellyFish = jellyFishList;
+        booms = boomList;
+        enemies = visibleEnemy;
+        bots = botVisible;
+        lights = lightList;
+        if(enemies.length > 0  && !global.hasEnemy){
+            audioShark.play();
+            global.hasEnemy = true;
+        }
+        if(enemies.length == 0){
+            global.hasEnemy = false;
+        }
     });
 
     // Death.
@@ -539,15 +537,12 @@ function getDistance(p1, p2) {
 function drawPlayersNew(userCurrent) {
     if(!userCurrent.living.status)
         return;
-    if(userCurrent.id == undefined){
-        userCurrent = player;
-    }
+    // if(userCurrent.id == undefined){
+    //     userCurrent = player;
+    // }
     var currentSprite = getFishSpriteData(userCurrent.levelUp.level);
     
-    var circle = {
-        x: userCurrent.x - start.x,
-        y: userCurrent.y - start.y
-    };
+    
 
     graph.lineWidth = 1;
     graph.strokeStyle = global.lineColor;
@@ -557,31 +552,37 @@ function drawPlayersNew(userCurrent) {
     if(userCurrent.jellyCollision.status){
        graph.drawImage(imageShock, global.screenWidth / 2 - global.imageShock.x/2 + userCurrent.x - player.x , global.screenHeight / 2 - global.imageShock.y + userCurrent.y - player.y);
     }
-    var positionUser = {};
-    if(userCurrent.id != undefined && userCurrent.dataPosition != undefined){
-        // console.log("AAA", userCurrent.dataPosition);
+    // var positionUser = {};
+    if(userCurrent.type != "bot"){
+        if(userCurrent.id != undefined && userCurrent.dataPosition != undefined){
+            // console.log("AAA", userCurrent.dataPosition);
 
-        positionUser = {
-            x: userCurrent.dataPosition[0].x + (userCurrent.dataPosition[1].x - userCurrent.dataPosition[0].x)*( global.timeDraw /global.timeStep),
-            y: userCurrent.dataPosition[0].y + (userCurrent.dataPosition[1].y - userCurrent.dataPosition[0].y)*( global.timeDraw /global.timeStep),
-        };
-        // if(global.timeDraw > global.timeStep){
-        //     userCurrent.dataPosition[1].x = positionUser.x;   
-        //     userCurrent.dataPosition[1].y = positionUser.y;
-        // }
-        if(isNaN(positionUser.x)){
-            console.log("BBB: ", userCurrent.dataPosition, global.timeDraw, global.timeStep);
+            // positionUser = {
+            userCurrent.x = userCurrent.dataPosition[0].x + (userCurrent.dataPosition[1].x - userCurrent.dataPosition[0].x)*( global.timeDraw /global.timeStep);
+            userCurrent.y = userCurrent.dataPosition[0].y + (userCurrent.dataPosition[1].y - userCurrent.dataPosition[0].y)*( global.timeDraw /global.timeStep);
+            // };
+            // if(global.timeDraw > global.timeStep){
+            //     userCurrent.dataPosition[1].x = positionUser.x;   
+            //     userCurrent.dataPosition[1].y = positionUser.y;
+            // }
+            if(isNaN(positionUser.x)){
+                console.log("BBB: ", userCurrent.dataPosition, global.timeDraw, global.timeStep);
+            }
+            // console.log("AAA", userCurrent.dataPosition);
+            
+        }else {
+            userCurrent.x = player.x;
+            userCurrent.y = player.y;
         }
-        // console.log("AAA", userCurrent.dataPosition);
-        
-    }else {
-        positionUser = {x: player.x, y: player.y};
-        userCurrent.direction = window.canvas.target.x > 0? global.direct.RIGHT: global.direct.LEFT;
     }
+    var circle = {
+        x: userCurrent.x - start.x,
+        y: userCurrent.y - start.y
+    };
     if(userCurrent.direction == global.direct.RIGHT){
-        drawSprite(currentSprite.state, currentSprite.colBegin, currentSprite.colCount, currentSprite.rawRightBegin, currentSprite.width, currentSprite.height, userCurrent.frameAnimation, positionUser, player);
+        drawSprite(currentSprite.state, currentSprite.colBegin, currentSprite.colCount, currentSprite.rawRightBegin, currentSprite.width, currentSprite.height, userCurrent.frameAnimation, userCurrent, player);
     } else {
-        drawSprite(currentSprite.state, currentSprite.colBegin, currentSprite.colCount, currentSprite.rawLeftBegin , currentSprite.width, currentSprite.height, userCurrent.frameAnimation, positionUser, player);
+        drawSprite(currentSprite.state, currentSprite.colBegin, currentSprite.colCount, currentSprite.rawLeftBegin , currentSprite.width, currentSprite.height, userCurrent.frameAnimation, userCurrent, player);
     }
     if(userCurrent.id == undefined){
         waveImage(userCurrent);
@@ -596,40 +597,40 @@ function drawPlayersNew(userCurrent) {
         }
     
     }
-    // graph.stroke();
-    // graph.globalAlpha = 1;
+    graph.stroke();
+    graph.globalAlpha = 1;
 
-    // graph.lineJoin = 'round';
-    // graph.lineCap = 'round';
-    // graph.fill();
-    // graph.stroke();
-    // var nameCell = "";
-    // if(typeof(userCurrent.id) == "undefined")
-    //     nameCell = player.name;
-    // else
-    //     nameCell = userCurrent.name;
+    graph.lineJoin = 'round';
+    graph.lineCap = 'round';
+    graph.fill();
+    graph.stroke();
+    var nameCell = "";
+    if(typeof(userCurrent.id) == "undefined")
+        nameCell = player.name;
+    else
+        nameCell = userCurrent.name;
 
-    // var fontSize = Math.max(54 / 3, 12);
-    // graph.lineWidth = playerConfig.textBorderSize;
-    // graph.fillStyle = playerConfig.textColor;
-    // graph.strokeStyle = playerConfig.textBorder;
-    // graph.miterLimit = 1;
-    // graph.lineJoin = 'round';
-    // graph.textAlign = 'center';
-    // graph.textBaseline = 'middle';
-    // graph.font = 'bold ' + fontSize + 'px sans-serif';
+    var fontSize = Math.max(54 / 3, 12);
+    graph.lineWidth = playerConfig.textBorderSize;
+    graph.fillStyle = playerConfig.textColor;
+    graph.strokeStyle = playerConfig.textBorder;
+    graph.miterLimit = 1;
+    graph.lineJoin = 'round';
+    graph.textAlign = 'center';
+    graph.textBaseline = 'middle';
+    graph.font = 'bold ' + fontSize + 'px sans-serif';
 
-    // if (global.toggleMassState === 0) {
-    //     graph.strokeText(nameCell, circle.x, circle.y);
-    //     graph.fillText(nameCell, circle.x, circle.y);
-    // } else {
-    //     graph.strokeText(nameCell, circle.x, circle.y);
-    //     graph.fillText(nameCell, circle.x, circle.y);
-    //     graph.font = 'bold ' + Math.max(fontSize / 3 * 2, 10) + 'px sans-serif';
-    //     if(nameCell.length === 0) fontSize = 0;
-    //     graph.strokeText(Math.round(userCurrent.massTotal), circle.x, circle.y+fontSize);
-    //     graph.fillText(Math.round(userCurrent.massTotal), circle.x, circle.y+fontSize);
-    // }
+    if (global.toggleMassState === 0) {
+        graph.strokeText(nameCell, circle.x, circle.y);
+        graph.fillText(nameCell, circle.x, circle.y);
+    } else {
+        graph.strokeText(nameCell, circle.x, circle.y);
+        graph.fillText(nameCell, circle.x, circle.y);
+        graph.font = 'bold ' + Math.max(fontSize / 3 * 2, 10) + 'px sans-serif';
+        if(nameCell.length === 0) fontSize = 0;
+        graph.strokeText(Math.round(userCurrent.massTotal), circle.x, circle.y+fontSize);
+        graph.fillText(Math.round(userCurrent.massTotal), circle.x, circle.y+fontSize);
+    }
 }
 
 

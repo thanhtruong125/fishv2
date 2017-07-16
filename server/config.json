@@ -63,7 +63,7 @@
         {"maxMass": 300, "radius": 80, "width": 154, "height": 127, "column": 1, "row": 1}
     ],
     "sharkFish":{
-        "maxSharkFish": 0,
+        "maxSharkFish": 2,
         "level" :[{"radius": 40, "width": 272, "height": 107 , "column": 3, "row": 1, "speed": 3.5}]
     },
     "direct": {
@@ -85,7 +85,7 @@
         "AIBOT": 6,
         "LIGHT":7
     },
-    "numberBot": 0,
+    "numberBot": 8,
     "BOT":{
         "DANGER": 0,
         "WARN": 1,

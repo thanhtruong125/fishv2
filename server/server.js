@@ -1432,18 +1432,18 @@ function gameloop() {
     UpdateJellyCollion();
 }
 
-function sendItem() {
-    // users.forEach(function(u){
-    //     if(u.dataPosition.length < 2){
-    //         u.dataPosition.push({x: u.x, y: u.y});
-    //         u.dataPosition.push({x: u.x, y: u.y});
-    //     }else {
-    //         u.dataPosition[0] = {};
-    //         u.dataPosition.splice(0,1);
-    //         u.dataPosition.push({x: u.x, y: u.y});
-    //         console.log("dataPosition: ",u.dataPosition);
-    //     }
-    // });
+function sendUpdates() {
+    users.forEach(function(u){
+        if(u.dataPosition.length < 2){
+            u.dataPosition.push({x: u.x, y: u.y});
+            u.dataPosition.push({x: u.x, y: u.y});
+        }else {
+            u.dataPosition[0] = {};
+            u.dataPosition.splice(0,1);
+            u.dataPosition.push({x: u.x, y: u.y});
+            console.log("dataPosition: ",u.dataPosition);
+        }
+    });
 
     users.forEach( function(u) {
         // center the view if x/y is undefined, this will happen for spectators
@@ -1558,64 +1558,6 @@ function sendItem() {
             })
             .filter(function(f) { return f; });
 
-            var botVisible  = bots
-            .map(function(f) {
-                if ( f.x+f.radius > u.x - u.screenWidth/2 - 20 &&
-                    f.x-f.radius < u.x + u.screenWidth/2 + 20 &&
-                    f.y+f.radius > u.y - u.screenHeight/2 - 20 &&
-                    f.y-f.radius < u.y + u.screenHeight/2 + 20) {
-                        return {
-                            id: f.id,
-                            x: f.x,
-                            y: f.y,
-                            numberBoom: f.numberBoom,
-                            target: f.target,
-                            radius: f.radius,
-                            direction: f.direction,
-                            frameAnimation: f.frameAnimation,
-                            massTotal: Math.round(f.massTotal),
-                            hue: f.hue,
-                            name: f.name,
-                            timeAcceleration: f.timeAcceleration,
-                            timeSpeed: f.timeSpeed,
-                            width: f.width,
-                            height: f.height,
-                            levelUp: f.levelUp,
-                            jellyCollision: f.jellyCollision,
-                            status: f.strategy.status,
-                            living: f.living,
-                            isHut: f.isHut,
-                            speed: f.speed
-                        };
-                }
-            })
-            .filter(function(f) { return f; });
-
-        if(sockets[u.id]){
-            sockets[u.id].emit('serverTellItemMove', visibleFood, visibleItemBoom, visibleMass, visibleLight, visibleJellyFish, visibleBoom,visibleEnemy, botVisible);
-        }
-    });
-}
-
-function sendUpdates() {
-    users.forEach(function(u){
-        if(u.dataPosition.length < 2){
-            u.dataPosition.push({x: u.x, y: u.y});
-            u.dataPosition.push({x: u.x, y: u.y});
-        }else {
-            u.dataPosition[0] = {};
-            u.dataPosition.splice(0,1);
-            u.dataPosition.push({x: u.x, y: u.y});
-            console.log("dataPosition: ",u.dataPosition);
-        }
-    });
-
-    users.forEach( function(u) {
-        // center the view if x/y is undefined, this will happen for spectators
-        // console.log("pos: ", u.x, " , ", u.y );
-        u.x = u.x || c.gameWidth / 2;
-        u.y = u.y || c.gameHeight / 2;
-
         var visibleCells  = users
             .map(function(f) {
                 if ( f.x+f.radius > u.x - u.screenWidth/2 - 20 &&
@@ -1682,6 +1624,40 @@ function sendUpdates() {
             })
             .filter(function(f) { return f; });
 
+            var botVisible  = bots
+            .map(function(f) {
+                if ( f.x+f.radius > u.x - u.screenWidth/2 - 20 &&
+                    f.x-f.radius < u.x + u.screenWidth/2 + 20 &&
+                    f.y+f.radius > u.y - u.screenHeight/2 - 20 &&
+                    f.y-f.radius < u.y + u.screenHeight/2 + 20) {
+                        return {
+                            id: f.id,
+                            x: f.x,
+                            y: f.y,
+                            numberBoom: f.numberBoom,
+                            target: f.target,
+                            radius: f.radius,
+                            direction: f.direction,
+                            frameAnimation: f.frameAnimation,
+                            massTotal: Math.round(f.massTotal),
+                            hue: f.hue,
+                            name: f.name,
+                            timeAcceleration: f.timeAcceleration,
+                            timeSpeed: f.timeSpeed,
+                            width: f.width,
+                            height: f.height,
+                            levelUp: f.levelUp,
+                            jellyCollision: f.jellyCollision,
+                            status: f.strategy.status,
+                            living: f.living,
+                            isHut: f.isHut,
+                            speed: f.speed,
+                            type: "bot"
+                        };
+                }
+            })
+            .filter(function(f) { return f; });
+
             var userRadar = [];
             
             users.forEach(function(f){
@@ -1699,7 +1675,7 @@ function sendUpdates() {
                 });
             });
         if(sockets[u.id]){
-            sockets[u.id].emit('serverTellPlayerMove', visibleCells, userRadar, users.length);
+            sockets[u.id].emit('serverTellPlayerMove', visibleCells, visibleFood, visibleItemBoom, visibleMass, visibleLight, visibleJellyFish, visibleBoom,visibleEnemy, botVisible, userRadar, users.length);
 
             if (leaderboardChanged) {
                 sockets[u.id].emit('leaderboard', {
@@ -1715,7 +1691,6 @@ function sendUpdates() {
 setInterval(moveloop, 1000 / 60);
 setInterval(gameloop, 1000);
 setInterval(sendUpdates, 1000 / c.networkUpdateFactor);
-setInterval(sendItem, 1000 / 40);
 
 function EnemyStrategy(){
     var pos = 0;
